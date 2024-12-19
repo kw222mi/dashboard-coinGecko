@@ -6,16 +6,16 @@ const Filter = () => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.data.filters);
 
-  const handleSortChange = (e) => {
-    dispatch(setFilters({ sortBy: e.target.value }));
+  const handleSearchChange = (e) => {
+    dispatch(setFilters({ searchQuery: e.target.value })); // Uppdatera sökfältet
   };
 
-  const handleSearchChange = (e) => {
-    dispatch(setFilters({ searchQuery: e.target.value }));
+  const handleSortChange = (e) => {
+    dispatch(setFilters({ sortBy: e.target.value })); // Uppdatera sorteringsordning
   };
 
   return (
-    <div className="filter">
+    <div>
       <input
         type="text"
         placeholder="Sök..."
