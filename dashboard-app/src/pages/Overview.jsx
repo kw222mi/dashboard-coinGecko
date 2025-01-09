@@ -8,7 +8,8 @@ const Overview = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchCoinData("coins/markets?vs_currency=usd");
+        const data = await fetchCoinData("?time_period=24h");
+        console.log("DATA" + data)
         setCoins(data);
         setLoading(false);
       } catch (error) {
@@ -26,15 +27,21 @@ const Overview = () => {
   return (
     <div>
       <h1>Kryptovalutor</h1>
-      <ul>
+      <p>{coins.categories}</p>
+   
+    </div>
+  );
+};
+
+export default Overview;
+
+
+/**
+ *    <ul>
         {coins.map((coin) => (
           <li key={coin.id}>
             {coin.name}: ${coin.current_price}
           </li>
         ))}
       </ul>
-    </div>
-  );
-};
-
-export default Overview;
+ */
