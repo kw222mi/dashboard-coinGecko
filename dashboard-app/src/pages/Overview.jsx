@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchCoinData } from "../services/coinGeckoService";
+import { fetchCoinData, fetchCoinMarketsData } from "../services/coinGeckoService";
 
 const Overview = () => {
   const [coins, setCoins] = useState([]);
@@ -8,7 +8,8 @@ const Overview = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchCoinData("?time_period=24h");
+        //const data = await fetchCoinData("?time_period=24h");
+        const data = await fetchCoinMarketsData()
         console.log("DATA" + data)
         setCoins(data);
         setLoading(false);
@@ -27,7 +28,7 @@ const Overview = () => {
   return (
     <div>
       <h1>Kryptovalutor</h1>
-      <p>{coins.categories}</p>
+      <p>{coins[0].name}</p>
    
     </div>
   );
