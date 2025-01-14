@@ -3,10 +3,13 @@ import Overview from "./pages/Overview";
 import Details from "./pages/Details";
 import Settings from "./pages/Settings";
 import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
     <Router>
+      <Header/>
       <Navbar />
       <h1>Home Page</h1>
       <Routes>
@@ -14,6 +17,7 @@ const App = () => {
         <Route path="/details" element={<Details />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
+      <Footer/>
     </Router>
   );
 };

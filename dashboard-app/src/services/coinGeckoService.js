@@ -25,3 +25,6 @@ export const fetchCoinMarketsData = async (endpoint) => {
     throw new Error("Could not fetch data");
   }
 };
+
+
+// 'https://api.coingecko.com/api/v3/coins/bitcoin/history?date=30-12-2024' \
