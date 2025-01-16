@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchCoinData, fetchCoinMarketsData } from "../services/coinGeckoService";
+import { fetchCoinData, fetchCoinMarketsData, fetchHistoricData } from "../services/coinGeckoService";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -18,13 +18,17 @@ const Overview = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [topFive, setTopFive] = useState([]);
+  
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchCoinMarketsData()
+        const data = await fetchCoinData(
+          "coins/markets?vs_currency=eur"
+        );
         setCoins(data);
+        //console.log(data)
         setLoading(false);
 
         const newArray= data.map((item) => ({
@@ -40,6 +44,24 @@ const Overview = () => {
 
     fetchData();
   }, []);
+
+
+    useEffect(() => {
+      const fetchHData = async () => {
+        try {
+          const data = await fetchHistoricData("bitcoin", "30-12-2024");
+          
+          console.log(data);
+          setLoading(false);
+
+        
+        } catch (error) {
+          console.error("Failed to load data:", error);
+        }
+      };
+
+      fetchHData();
+    }, []);
 
   ChartJS.register(
     CategoryScale,
@@ -99,10 +121,6 @@ const Overview = () => {
    ],
  };
 
-  
-    
-     
-
  
 
   if (loading) {
@@ -156,12 +174,3 @@ const Overview = () => {
 export default Overview;
 
 
-/**
- *    <ul>
-        {coins.map((coin) => (
-          <li key={coin.id}>
-            {coin.name}: ${coin.current_price}
-          </li>
-        ))}
-      </ul>
- */
