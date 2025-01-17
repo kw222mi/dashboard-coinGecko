@@ -70,9 +70,6 @@ useEffect(() => {
 }, []);
 
 
-
-
-
   ChartJS.register(
     CategoryScale,
     LinearScale,

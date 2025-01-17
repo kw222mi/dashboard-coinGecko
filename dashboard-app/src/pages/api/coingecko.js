@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-API-Private-Token": process.env.NEXT_PUBLIC_API_KEY,
+          "X-API-Private-Token": process.env.API_KEY,
         },
       }
     );
