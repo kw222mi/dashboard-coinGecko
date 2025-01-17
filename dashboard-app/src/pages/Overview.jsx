@@ -152,7 +152,7 @@ useEffect(() => {
       </div>
 
       <div>
-        <h1>Top 5 kryptovalutor </h1>
+        <h1>Top 5 Cryptocurrency </h1>
         <p>
           {coins[0].name} <img src={coins[0].image} width={15}></img>
           {coins[0].market_cap}
