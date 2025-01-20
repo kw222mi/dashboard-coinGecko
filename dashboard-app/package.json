@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": "20.11.0"
+  },
   "dependencies": {
     "@faker-js/faker": "^9.3.0",
     "@reduxjs/toolkit": "^2.5.0",
