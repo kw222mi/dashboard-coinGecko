@@ -3,8 +3,9 @@ import Overview from "./pages/Overview";
 import Details from "./pages/Details";
 import Settings from "./pages/Settings";
 import Navbar from "./components/Navbar";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
+import "./index.css";
+import Header from "./components/header";
 
 const App = () => {
   return (

@@ -1,12 +1,18 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <Link to="/">Översikt</Link>
-      <Link to="/details">Detaljer</Link>
-      <Link to="/settings">Inställningar</Link>
+    <nav className="bg-blue-200 text-gray-600 p-3">
+      <Link className="p-3 font-bold text-lg" to="/">
+        Overview
+      </Link>
+      <Link className="p-3 font-bold text-lg" to="/details">
+        Details
+      </Link>
+      <Link className="p-3 font-bold text-lg" to="/settings">
+        Settings
+      </Link>
     </nav>
   );
 };
