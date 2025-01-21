@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchCoinData, fetchHistoricData } from "../services/coinGeckoService";
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
+import HistoricalLineChart from "../components/LineChart"
 
 const Overview = () => {
   const [coins, setCoins] = useState([]);
@@ -56,41 +57,68 @@ const Overview = () => {
   }, []);
 
   // Hämtar historiska data
-  useEffect(() => {
-    const fetchHistoricalData = async () => {
-      const cachedHistoricalData = localStorage.getItem("histData");
-      const cachedHistoricalTimestamp =
-        localStorage.getItem("histDataTimestamp");
+useEffect(() => {
+  const fetchHistoricalData = async () => {
+    const cachedHistoricalData = localStorage.getItem("weeklyHistData");
+    const cachedHistoricalTimestamp = localStorage.getItem(
+      "weeklyHistDataTimestamp"
+    );
 
-      if (
-        cachedHistoricalData &&
-        cachedHistoricalTimestamp &&
-        Date.now() - cachedHistoricalTimestamp < 3600000 // 1 timme
-      ) {
-        const parsedData = JSON.parse(cachedHistoricalData);
-        console.log("Using cached historical data:", parsedData);
-        console.log(parsedData.market_data.current_price.eur);
-        setHistoricalData(parsedData);
-        return;
+    // Kontrollera om cachen är giltig (1 timme)
+    if (
+      cachedHistoricalData &&
+      cachedHistoricalTimestamp &&
+      Date.now() - cachedHistoricalTimestamp < 3600000
+    ) {
+      const parsedData = JSON.parse(cachedHistoricalData);
+      console.log("Using cached weekly historical data:", parsedData);
+      setHistoricalData(parsedData);
+      return;
+    }
+
+    try {
+      const now = new Date();
+      const dates = [];
+      for (let i = 0; i < 7; i++) {
+        const pastDate = new Date();
+        pastDate.setDate(now.getDate() - i);
+        const day = String(pastDate.getDate()).padStart(2, "0");
+        const month = String(pastDate.getMonth() + 1).padStart(2, "0"); // Månader är 0-indexerade
+        const year = pastDate.getFullYear();
+        dates.push(`${day}-${month}-${year}`);
       }
 
-      try {
-        const data = await fetchHistoricData (
-          "bitcoin","30-12-2024"
-        );
-        console.log("Fetched new historical data:", data);
+      console.log("Fetching historical data for dates:", dates);
 
-        localStorage.setItem("histData", JSON.stringify(data));
-        localStorage.setItem("histDataTimestamp", Date.now());
+      // Hämta data för varje dag
+      const historicalDataArray = await Promise.all(
+        dates.map(async (date) => {
+          const data = await fetchHistoricData("bitcoin", date);
+          return {
+            date,
+            price: data.market_data.current_price.eur, // Eller annan relevant data
+          };
+        })
+      );
 
-        setHistoricalData(data);
-      } catch (error) {
-        console.error("Failed to fetch historical data:", error);
-      }
-    };
+      console.log("Fetched weekly historical data:", historicalDataArray);
 
-    fetchHistoricalData();
-  }, []);
+      // Spara i localStorage
+      localStorage.setItem(
+        "weeklyHistData",
+        JSON.stringify(historicalDataArray)
+      );
+      localStorage.setItem("weeklyHistDataTimestamp", Date.now());
+
+      setHistoricalData(historicalDataArray);
+    } catch (error) {
+      console.error("Failed to fetch weekly historical data:", error);
+    }
+  };
+
+  fetchHistoricalData();
+}, []);
+
 
   if (loading || coins.length === 0) {
     return <p>Laddar data...</p>;
@@ -111,6 +139,10 @@ const Overview = () => {
         <p>Lowest price in 24h: {coins[0].low_24h}</p>
         <p>Price change in 24h: {coins[0].price_change_percentage_24h} %</p>
         <p>All time high: {coins[0].ath}</p>
+      </div>
+
+      <div>
+        <HistoricalLineChart historicalData={historicalData} />
       </div>
 
       <div>

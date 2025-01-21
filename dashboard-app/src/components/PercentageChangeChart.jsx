@@ -13,7 +13,6 @@ import PropTypes from "prop-types";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 
-
 const PercentageChangeChart = ({ topFive }) => {
   // Skapa datan för diagrammet
   const labels = topFive.map((item) => item.name);
