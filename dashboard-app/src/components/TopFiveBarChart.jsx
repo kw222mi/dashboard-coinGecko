@@ -1,78 +1,18 @@
-import React, { useEffect, useState } from "react";
-import {
-  fetchCoinData,
-  fetchCoinMarketsData,
-  fetchHistoricData,
-} from "../services/coinGeckoService";
-import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import PropTypes from "prop-types";
 
-const TopFiveBarChart = () => {
- const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [topFive, setTopFive] = useState([]);
-  const [historicalData, setHistoricalData] = useState([]);
-  
 
-useEffect(() => {
-  const fetchData = async () => {
-    const cachedData = localStorage.getItem("coinsData");
-    const cachedTimestamp = localStorage.getItem("coinsDataTimestamp");
 
-    // Kontrollera om datan är ny
-    if (
-      cachedData &&
-      cachedTimestamp &&
-      Date.now() - cachedTimestamp < 3600000 // 1 timme
-    ) {
-      const parsedData = JSON.parse(cachedData);
-      setCoins(parsedData);
-      setLoading(false);
-
-      // Sätt topFive baserat på den cachade datan
-      const newArray = parsedData.map((item) => ({
-        name: item.name,
-        market_cap: item.market_cap,
-        image: item.image,
-      }));
-      setTopFive(newArray.slice(0, 5));
-
-      return;
-    }
-
-    try {
-      const data = await fetchCoinData("coins/markets?vs_currency=eur");
-      localStorage.setItem("coinsData", JSON.stringify(data));
-      localStorage.setItem("coinsDataTimestamp", Date.now());
-      setCoins(data);
-      setLoading(false);
-
-      // Sätt topFive baserat på den hämtade datan
-      const newArray = data.map((item) => ({
-        name: item.name,
-        market_cap: item.market_cap,
-        image: item.image,
-      }));
-      setTopFive(newArray.slice(0, 5));
-    } catch (error) {
-      console.error("Failed to load data:", error);
-    }
-  };
-
-  fetchData();
-}, []);
-
+const TopFiveBarChart = ({topFive}) => {
 
   ChartJS.register(
     CategoryScale,
@@ -105,8 +45,6 @@ useEffect(() => {
     },
   };
 
-
-
  const data2 = {
    labels: topFive.map((item) => item.name), // Använd namnen som etiketter
    datasets: [
@@ -132,43 +70,45 @@ useEffect(() => {
    ],
  };
 
- 
-
-  if (loading) {
-    return <p>Laddar...</p>;
-  }
-
-  return (
+   return (
     <>
-  
-
       <div>
         <h1>Top 5 Cryptocurrency </h1>
         <p>
-          {coins[0].name} <img src={coins[0].image} width={15}></img>
-          {coins[0].market_cap}
+          {topFive[0].name} <img src={topFive[0].image} width={15}></img>
+          {topFive[0].market_cap}
         </p>
         <p>
-          {coins[1].name} <img src={coins[1].image} width={15}></img>
-          {coins[1].market_cap}
+          {topFive[1].name} <img src={topFive[1].image} width={15}></img>
+          {topFive[1].market_cap}
         </p>
         <p>
-          {coins[2].name} <img src={coins[2].image} width={15}></img>
-          {coins[2].market_cap}
+          {topFive[2].name} <img src={topFive[2].image} width={15}></img>
+          {topFive[2].market_cap}
         </p>
         <p>
-          {coins[3].name} <img src={coins[3].image} width={15}></img>
-          {coins[3].market_cap}
+          {topFive[3].name} <img src={topFive[3].image} width={15}></img>
+          {topFive[3].market_cap}
         </p>
         <p>
-          {coins[4].name} <img src={coins[4].image} width={15}></img>
-          {coins[4].market_cap}
+          {topFive[4].name} <img src={topFive[4].image} width={15}></img>
+          {topFive[4].market_cap}
         </p>
 
         <Bar options={options2} data={data2} />
       </div>
     </>
   );
+};
+
+TopFiveBarChart.propTypes = {
+  topFive: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      market_cap: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default TopFiveBarChart;
