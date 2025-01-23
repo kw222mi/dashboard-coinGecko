@@ -257,48 +257,4 @@ export default Overview;
 
 //  <HistoricalLineChart historicalData={historicalData} />
 
-/**
- * 
- *   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchCoinData(
-          "coins/markets?vs_currency=eur"
-        );
-        setCoins(data);
-        //console.log(data)
-        setLoading(false);
 
-        const newArray= data.map((item) => ({
-          name: item.name,
-          market_cap: item.market_cap,
-          image: item.image,
-        }));
-        setTopFive(newArray.slice(0, 5))
-      } catch (error) {
-        console.error("Failed to load data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-
-
-
-  useEffect(() => {
-      const fetchHData = async () => {
-        try {
-          const data = await fetchHistoricData("bitcoin", "30-12-2024");
-          setHistoricalData(data)
-          console.log(data);
-          console.log("Current price" + data.market_data.current_price.eur);
-          setLoading(false);
-        } catch (error) {
-          console.error("Failed to load data:", error);
-        }
-      };
-
-      fetchHData();
-    }, []); 
- */
