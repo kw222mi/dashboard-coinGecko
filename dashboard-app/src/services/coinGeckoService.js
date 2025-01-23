@@ -14,6 +14,19 @@ export const fetchCoinData = async (endpoint) => {
   }
 };
 
+export const fetchGlobalData = async (endpoint) => {
+  try {
+    const response = await axios.get(
+      `https://api.coingecko.com/api/v3/global`
+    );
+   
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Could not fetch data");
+  }
+};
+
 
 export const fetchCoinMarketsData = async (endpoint) => {
   try {
@@ -39,6 +52,7 @@ export const fetchHistoricData = async (id, date) => {
   }
 };
 
+//  https://api.coingecko.com/api/v3/global
 
 // 'https://api.coingecko.com/api/v3/coins/bitcoin/history?date=30-12-2024' \
 

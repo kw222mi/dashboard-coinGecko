@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchCoinData, fetchHistoricData } from "../services/coinGeckoService";
+import {
+  fetchCoinData,
+  fetchHistoricData,
+  fetchGlobalData,
+
+} from "../services/coinGeckoService";
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
 import HistoricalLineChart from "../components/LineChart"
@@ -9,6 +14,40 @@ const Overview = () => {
   const [loading, setLoading] = useState(true);
   const [topFive, setTopFive] = useState([]);
   const [historicalData, setHistoricalData] = useState([]);
+  const [global, setGlobal] = useState({})
+
+  // Hämtar aktuell globaldata
+  useEffect(() => {
+    const fetchGData = async () => {
+      const cachedData = localStorage.getItem("globalData");
+      const cachedTimestamp = localStorage.getItem("globalDataTimestamp");
+
+      if (
+        cachedData &&
+        cachedTimestamp &&
+        Date.now() - cachedTimestamp < 3600000 // 1 timme
+      ) {
+        const parsedData = JSON.parse(cachedData);
+        setGlobal(parsedData);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const data = await fetchGlobalData("global");
+        localStorage.setItem("globalData", JSON.stringify(data));
+        localStorage.setItem("globalDataTimestamp", Date.now());
+        setGlobal(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to load data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGData();
+  }, []);
 
   // Hämtar aktuell marknadsdata
   useEffect(() => {
@@ -29,6 +68,7 @@ const Overview = () => {
           name: item.name,
           market_cap: item.market_cap,
           image: item.image,
+          price_change_percentage_24h: item.price_change_percentage_24h
         }));
         setTopFive(newArray.slice(0, 5));
 
@@ -46,79 +86,82 @@ const Overview = () => {
           name: item.name,
           market_cap: item.market_cap,
           image: item.image,
+          price_change_percentage_24h: item.price_change_percentage_24h,
         }));
         setTopFive(newArray.slice(0, 5));
       } catch (error) {
         console.error("Failed to load data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  // Hämtar historiska data
-useEffect(() => {
-  const fetchHistoricalData = async () => {
-    const cachedHistoricalData = localStorage.getItem("weeklyHistData");
-    const cachedHistoricalTimestamp = localStorage.getItem(
-      "weeklyHistDataTimestamp"
-    );
+  /* Hämtar historiska data
+  useEffect(() => {
+    const fetchHistoricalData = async () => {
+      const cachedHistoricalData = localStorage.getItem("weeklyHistData");
+      const cachedHistoricalTimestamp = localStorage.getItem(
+        "weeklyHistDataTimestamp"
+      );
 
-    // Kontrollera om cachen är giltig (1 timme)
-    if (
-      cachedHistoricalData &&
-      cachedHistoricalTimestamp &&
-      Date.now() - cachedHistoricalTimestamp < 3600000
-    ) {
-      const parsedData = JSON.parse(cachedHistoricalData);
-      console.log("Using cached weekly historical data:", parsedData);
-      setHistoricalData(parsedData);
-      return;
-    }
-
-    try {
-      const now = new Date();
-      const dates = [];
-      for (let i = 0; i < 7; i++) {
-        const pastDate = new Date();
-        pastDate.setDate(now.getDate() - i);
-        const day = String(pastDate.getDate()).padStart(2, "0");
-        const month = String(pastDate.getMonth() + 1).padStart(2, "0"); // Månader är 0-indexerade
-        const year = pastDate.getFullYear();
-        dates.push(`${day}-${month}-${year}`);
+      // Kontrollera om cachen är giltig (1 timme)
+      if (
+        cachedHistoricalData &&
+        cachedHistoricalTimestamp &&
+        Date.now() - cachedHistoricalTimestamp < 3600000
+      ) {
+        const parsedData = JSON.parse(cachedHistoricalData);
+        console.log("Using cached weekly historical data:", parsedData);
+        setHistoricalData(parsedData);
+        return;
       }
 
-      console.log("Fetching historical data for dates:", dates);
+      try {
+        const now = new Date();
+        const dates = [];
+        for (let i = 0; i < 7; i++) {
+          const pastDate = new Date();
+          pastDate.setDate(now.getDate() - i);
+          const day = String(pastDate.getDate()).padStart(2, "0");
+          const month = String(pastDate.getMonth() + 1).padStart(2, "0"); // Månader är 0-indexerade
+          const year = pastDate.getFullYear();
+          dates.push(`${day}-${month}-${year}`);
+        }
 
-      // Hämta data för varje dag
-      const historicalDataArray = await Promise.all(
-        dates.map(async (date) => {
-          const data = await fetchHistoricData("bitcoin", date);
-          return {
-            date,
-            price: data.market_data.current_price.eur, // Eller annan relevant data
-          };
-        })
-      );
+        console.log("Fetching historical data for dates:", dates);
 
-      console.log("Fetched weekly historical data:", historicalDataArray);
+        // Hämta data för varje dag
+        const historicalDataArray = await Promise.all(
+          dates.map(async (date) => {
+            const data = await fetchHistoricData("bitcoin", date);
+            return {
+              date,
+              price: data.market_data.current_price.eur, // Eller annan relevant data
+            };
+          })
+        );
 
-      // Spara i localStorage
-      localStorage.setItem(
-        "weeklyHistData",
-        JSON.stringify(historicalDataArray)
-      );
-      localStorage.setItem("weeklyHistDataTimestamp", Date.now());
+        console.log("Fetched weekly historical data:", historicalDataArray);
 
-      setHistoricalData(historicalDataArray);
-    } catch (error) {
-      console.error("Failed to fetch weekly historical data:", error);
-    }
-  };
+        // Spara i localStorage
+        localStorage.setItem(
+          "weeklyHistData",
+          JSON.stringify(historicalDataArray)
+        );
+        localStorage.setItem("weeklyHistDataTimestamp", Date.now());
 
-  fetchHistoricalData();
-}, []);
+        setHistoricalData(historicalDataArray);
+      } catch (error) {
+        console.error("Failed to fetch weekly historical data:", error);
+      }
+    };
 
+    fetchHistoricalData();
+  }, []);
+  */
 
   if (loading || coins.length === 0) {
     return <p>Laddar data...</p>;
@@ -129,9 +172,12 @@ useEffect(() => {
       <div>
         <h1>Cryptocurrency</h1>
         <p>
-          Currency: {coins[0].name}
-          <img src={coins[0].image} width={15} alt={coins[0].name} />
+          Currency: {coins[0]?.name || "Unknown"}
+          {coins[0]?.image && (
+            <img src={coins[0].image} width={15} alt={coins[0]?.name} />
+          )}
         </p>
+
         <p>Price: {coins[0].current_price}</p>
         <p>Market cap rank: {coins[0].market_cap_rank}</p>
         <p>Total volume: {coins[0].total_volume}</p>
@@ -142,21 +188,19 @@ useEffect(() => {
       </div>
 
       <div>
-        <HistoricalLineChart historicalData={historicalData} />
-      </div>
-
-      <div>
         <TopFiveBarChart topFive={topFive} />
       </div>
 
       <div>
-        <PercentageChangeChart topFive={coins.slice(0, 5)} />
+        <PercentageChangeChart topFive={topFive} />
       </div>
     </>
   );
 };
 
 export default Overview;
+
+//  <HistoricalLineChart historicalData={historicalData} />
 
 /**
  * 
