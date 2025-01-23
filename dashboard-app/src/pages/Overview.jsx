@@ -28,6 +28,8 @@ const Overview = () => {
         Date.now() - cachedTimestamp < 3600000 // 1 timme
       ) {
         const parsedData = JSON.parse(cachedData);
+        console.log("parsed")
+        console.log(parsedData.data.active_cryptocurrencies);
         setGlobal(parsedData);
         setLoading(false);
         return;
@@ -171,6 +173,15 @@ const Overview = () => {
     <>
       <div>
         <h1>Cryptocurrency</h1>
+        <p>Global data</p>
+        <p>
+          Number of active cryptocurrencies:
+          {global.data.active_cryptocurrencies}
+        </p>
+        <p>Number of marketplaces: {global.data.markets}</p>
+        <p>Total market cap (EUR): {global.data.total_market_cap.eur}</p>
+        <p>TTotel volume (EUR):  {global.data.total_volume.eur}</p>
+
         <p>
           Currency: {coins[0]?.name || "Unknown"}
           {coins[0]?.image && (
