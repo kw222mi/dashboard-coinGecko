@@ -8,6 +8,8 @@ import {
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
 import HistoricalLineChart from "../components/LineChart"
+import MarketDominanceChart from "../components/MarketDominanceChart"
+
 
 const Overview = () => {
   const [coins, setCoins] = useState([]);
@@ -174,13 +176,35 @@ const Overview = () => {
       <div>
         <h1>Cryptocurrency</h1>
         <p>Global data</p>
-        <p>
-          Number of active cryptocurrencies:
-          {global.data.active_cryptocurrencies}
-        </p>
-        <p>Number of marketplaces: {global.data.markets}</p>
-        <p>Total market cap (EUR): {global.data.total_market_cap.eur}</p>
-        <p>TTotel volume (EUR):  {global.data.total_volume.eur}</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-white rounded shadow">
+            <h2 className="text-lg font-bold">Active cryptocurrencies</h2>
+            <p>{global.data.active_cryptocurrencies}</p>
+          </div>
+          <div className="p-4 bg-white rounded shadow">
+            <h2 className="text-lg font-bold">Number of marketplaces</h2>
+            <p>{global.data.markets}</p>
+          </div>
+          <div className="p-4 bg-white rounded shadow">
+            <h2 className="text-lg font-bold">Total market cap (USD)</h2>
+            <p>${(global.data.total_market_cap.usd / 1e12).toFixed(2)}T</p>
+          </div>
+        </div>
+
+        <p>Total volume (EUR): {global.data.total_volume.eur}</p>
+
+        <div className="container mx-auto p-4">
+          <h1 className="text-2xl font-bold mb-4">Kryptovaluta Översikt</h1>
+          {global && (
+            <>
+          
+              <MarketDominanceChart
+                marketCapPercentage={global.data.market_cap_percentage}
+              />
+            </>
+          )}
+        </div>
 
         <p>
           Currency: {coins[0]?.name || "Unknown"}

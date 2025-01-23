@@ -10,20 +10,20 @@ import {
 import { Bar } from "react-chartjs-2";
 import PropTypes from "prop-types";
 
-const TopFiveBarChart = ({topFive}) => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
-
+const TopFiveBarChart = ({ topFive }) => {
   const options2 = {
     responsive: true,
     plugins: {
+      legend: { display: false }, // Dölj legend för renare design
       tooltip: {
         callbacks: {
           label: function (context) {
@@ -38,64 +38,115 @@ const TopFiveBarChart = ({topFive}) => {
           callback: function (value) {
             return `$${value / 1e9}B`; // Visar i miljarder
           },
+          color: "#4A5568", // Färg på text
+        },
+        grid: {
+          drawBorder: false, // Dölj ramlinje
+          color: "#E2E8F0", // Ljus grå för rutnät
+        },
+      },
+      x: {
+        ticks: {
+          color: "#4A5568", // Färg på text
+        },
+        grid: {
+          drawBorder: false,
+          display: false, // Dölj vertikala linjer
         },
       },
     },
   };
 
- const data2 = {
-   labels: topFive.map((item) => item.name), // Använd namnen som etiketter
-   datasets: [
-     {
-       label: "Market Cap",
-       data: topFive.map((item) => item.market_cap), // Plocka ut market_cap för varje objekt
-       backgroundColor: [
-         "rgba(255, 99, 132, 0.5)", 
-         "rgba(54, 162, 235, 0.5)", 
-         "rgba(75, 192, 192, 0.5)", 
-         "rgba(153, 102, 255, 0.5)", 
-         "rgba(255, 159, 64, 0.5)", 
-       ],
-       borderColor: [
-         "rgba(255, 99, 132, 1)", 
-         "rgba(54, 162, 235, 1)", 
-         "rgba(75, 192, 192, 1)", 
-         "rgba(153, 102, 255, 1)", 
-         "rgba(255, 159, 64, 1)", 
-       ],
-       borderWidth: 1,
-     },
-   ],
- };
+  const data2 = {
+    labels: topFive.map((item) => item.name),
+    datasets: [
+      {
+        label: "Market Cap",
+        data: topFive.map((item) => item.market_cap),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.5)",
+          "rgba(54, 162, 235, 0.5)",
+          "rgba(75, 192, 192, 0.5)",
+          "rgba(153, 102, 255, 0.5)",
+          "rgba(255, 159, 64, 0.5)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 1,
+        borderRadius: 5, // Rundade hörn på staplar
+        barPercentage: 0.6, // Justera bredden på staplar
+      },
+    ],
+  };
 
-   return (
-    <>
-      <div>
-        <h1>Top 5 Cryptocurrency </h1>
-        <p>
-          {topFive[0].name} <img src={topFive[0].image} width={15}></img>
-          {topFive[0].market_cap}
-        </p>
-        <p>
-          {topFive[1].name} <img src={topFive[1].image} width={15}></img>
-          {topFive[1].market_cap}
-        </p>
-        <p>
-          {topFive[2].name} <img src={topFive[2].image} width={15}></img>
-          {topFive[2].market_cap}
-        </p>
-        <p>
-          {topFive[3].name} <img src={topFive[3].image} width={15}></img>
-          {topFive[3].market_cap}
-        </p>
-        <p>
-          {topFive[4].name} <img src={topFive[4].image} width={15}></img>
-          {topFive[4].market_cap}
-        </p>
-
-        <Bar options={options2} data={data2} />
+  return (
+    <div
+      style={{
+        background: "#FFF",
+        padding: "2rem",
+        borderRadius: "10px",
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+        marginTop: "2rem",
+      }}
+    >
+      <h2
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          marginBottom: "1rem",
+          color: "#2D3748",
+        }}
+      >
+        Top 5 Cryptocurrencies by Market Cap
+      </h2>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          marginBottom: "2rem",
+        }}
+      >
+        {topFive.map((item, index) => (
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              background: "#F7FAFC",
+              padding: "0.5rem",
+              borderRadius: "5px",
+              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <img
+              src={item.image}
+              alt={`${item.name} logo`}
+              style={{ width: "24px", height: "24px", borderRadius: "50%" }}
+            />
+            <span
+              style={{
+                fontWeight: "bold",
+                color: "#2D3748",
+                flex: 1,
+              }}
+            >
+              {item.name}
+            </span>
+            <span style={{ color: "#4A5568" }}>
+              Market Cap: ${item.market_cap.toLocaleString()}
+            </span>
+          </div>
+        ))}
       </div>
-    </>
+      <Bar data={data2} options={options2} />
+    </div>
   );
 };
 
