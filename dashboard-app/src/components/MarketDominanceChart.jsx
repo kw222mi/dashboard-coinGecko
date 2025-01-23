@@ -66,9 +66,9 @@ const MarketDominanceChart = ({ marketCapPercentage }) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md max-w-md mx-auto">
+    <div className="p-6 bg-white rounded-lg max-w-md mx-auto">
       <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
-        Marknadsdominans
+       
       </h2>
       <div style={{ height: "300px" }}>
         <Pie data={data} options={options} />

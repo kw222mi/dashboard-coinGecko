@@ -173,61 +173,81 @@ const Overview = () => {
 
   return (
     <>
-      <div>
-        <h1>Cryptocurrency</h1>
-        <p>Global data</p>
+      <div className="bg-gray-50 min-h-screen">
+        {/* Header */}
+        <h1 className="text-3xl font-bold p-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-md">
+          Cryptocurrency Overview
+        </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white rounded shadow">
-            <h2 className="text-lg font-bold">Active cryptocurrencies</h2>
-            <p>{global.data.active_cryptocurrencies}</p>
+        {/* Stats Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 p-6">
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+              Active Cryptocurrencies
+            </h2>
+            <p className="text-xl font-bold text-gray-700">
+              {global.data.active_cryptocurrencies}
+            </p>
           </div>
-          <div className="p-4 bg-white rounded shadow">
-            <h2 className="text-lg font-bold">Number of marketplaces</h2>
-            <p>{global.data.markets}</p>
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+              Number of Marketplaces
+            </h2>
+            <p className="text-xl font-bold text-gray-700">
+              {global.data.markets}
+            </p>
           </div>
-          <div className="p-4 bg-white rounded shadow">
-            <h2 className="text-lg font-bold">Total market cap (USD)</h2>
-            <p>${(global.data.total_market_cap.usd / 1e12).toFixed(2)}T</p>
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+              Total Market Cap (USD)
+            </h2>
+            <p className="text-xl font-bold text-gray-700">
+              ${(global.data.total_market_cap.usd / 1e12).toFixed(2)}T
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+              Total Volume (USD)
+            </h2>
+            <p className="text-xl font-bold text-gray-700">
+              ${(global.data.total_volume.usd / 1e12).toFixed(2)}T
+            </p>
           </div>
         </div>
 
-        <p>Total volume (EUR): {global.data.total_volume.eur}</p>
-
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">Kryptovaluta Översikt</h1>
+        {/* Market Dominance Chart Section */}
+        <div className="container mx-auto p-6">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+            Market Dominance Overview
+          </h2>
           {global && (
-            <>
-          
+            <div className="bg-white p-6 rounded-lg shadow-lg">
               <MarketDominanceChart
                 marketCapPercentage={global.data.market_cap_percentage}
               />
-            </>
+            </div>
           )}
         </div>
 
-        <p>
-          Currency: {coins[0]?.name || "Unknown"}
-          {coins[0]?.image && (
-            <img src={coins[0].image} width={15} alt={coins[0]?.name} />
-          )}
-        </p>
+        {/* Top Five Bar Chart */}
+        <div className="container mx-auto p-6">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+            Top 5 Cryptocurrencies by Market Cap
+          </h2>
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <TopFiveBarChart topFive={topFive} />
+          </div>
+        </div>
 
-        <p>Price: {coins[0].current_price}</p>
-        <p>Market cap rank: {coins[0].market_cap_rank}</p>
-        <p>Total volume: {coins[0].total_volume}</p>
-        <p>Highest price in 24h: {coins[0].high_24h}</p>
-        <p>Lowest price in 24h: {coins[0].low_24h}</p>
-        <p>Price change in 24h: {coins[0].price_change_percentage_24h} %</p>
-        <p>All time high: {coins[0].ath}</p>
-      </div>
-
-      <div>
-        <TopFiveBarChart topFive={topFive} />
-      </div>
-
-      <div>
-        <PercentageChangeChart topFive={topFive} />
+        {/* Percentage Change Chart */}
+        <div className="container mx-auto p-6">
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+            24h Percentage Change for Top 5 Cryptocurrencies
+          </h2>
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <PercentageChangeChart topFive={topFive} />
+          </div>
+        </div>
       </div>
     </>
   );

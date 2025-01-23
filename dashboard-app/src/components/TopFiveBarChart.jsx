@@ -90,8 +90,7 @@ const TopFiveBarChart = ({ topFive }) => {
         background: "#FFF",
         padding: "2rem",
         borderRadius: "10px",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-        marginTop: "2rem",
+        marginTop: "1rem",
       }}
     >
       <h2
@@ -100,16 +99,17 @@ const TopFiveBarChart = ({ topFive }) => {
           fontWeight: "bold",
           marginBottom: "1rem",
           color: "#2D3748",
+          
         }}
-      >
-        Top 5 Cryptocurrencies by Market Cap
-      </h2>
+      ></h2>
+      <Bar data={data2} options={options2} />
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
           marginBottom: "2rem",
+          marginTop:"2rem"
         }}
       >
         {topFive.map((item, index) => (
@@ -145,7 +145,6 @@ const TopFiveBarChart = ({ topFive }) => {
           </div>
         ))}
       </div>
-      <Bar data={data2} options={options2} />
     </div>
   );
 };

@@ -62,10 +62,8 @@ const PercentageChangeChart = ({ topFive }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mt-8">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">
-        24h %-förändring för de 5 största kryptovalutorna
-      </h2>
+    <div className="bg-white p-6 rounded-lg mt-8">
+     
       <div className="flex flex-col md:flex-row items-center gap-8">
         {/* Stapeldiagrammet */}
         <div className="flex-1 w-full h-[300px] md:h-[400px] lg:h-[500px]">
