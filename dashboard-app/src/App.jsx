@@ -5,12 +5,11 @@ import Settings from "./pages/Settings";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./index.css";
-import Header from "./components/header";
 
 const App = () => {
   return (
     <Router>
-      <Header/>
+      
       <Navbar />
       <Routes>
         <Route path="/" element={<Overview />} />
