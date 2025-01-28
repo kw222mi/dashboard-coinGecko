@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchCoinData,
-  fetchHistoricData,
   fetchGlobalData,
 
 } from "../services/coinGeckoService";
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
-import HistoricalLineChart from "../components/LineChart"
 import MarketDominanceChart from "../components/MarketDominanceChart"
-
 
 const Overview = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [topFive, setTopFive] = useState([]);
-  const [historicalData, setHistoricalData] = useState([]);
   const [global, setGlobal] = useState({})
 
   // Hämtar aktuell globaldata

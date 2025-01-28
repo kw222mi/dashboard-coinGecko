@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchCoinData = async (endpoint) => {
+export const fetchCoinData = async () => {
   try {
    const response = await axios.get(
      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur`
@@ -14,7 +14,7 @@ export const fetchCoinData = async (endpoint) => {
   }
 };
 
-export const fetchGlobalData = async (endpoint) => {
+export const fetchGlobalData = async () => {
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/global`
@@ -28,7 +28,7 @@ export const fetchGlobalData = async (endpoint) => {
 };
 
 
-export const fetchCoinMarketsData = async (endpoint) => {
+export const fetchCoinMarketsData = async () => {
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur`
