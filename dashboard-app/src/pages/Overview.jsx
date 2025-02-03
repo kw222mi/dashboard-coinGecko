@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-  fetchCoinData,
-  fetchGlobalData,
-
-} from "../services/coinGeckoService";
+import { fetchCoinData, fetchGlobalData } from "../services/coinGeckoService";
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
-import MarketDominanceChart from "../components/MarketDominanceChart"
+import MarketDominanceChart from "../components/MarketDominanceChart";
 
 const Overview = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [topFive, setTopFive] = useState([]);
-  const [global, setGlobal] = useState({})
+  const [global, setGlobal] = useState({});
 
   // Hämtar aktuell globaldata
   useEffect(() => {
@@ -26,7 +22,7 @@ const Overview = () => {
         Date.now() - cachedTimestamp < 3600000 // 1 timme
       ) {
         const parsedData = JSON.parse(cachedData);
-        console.log("parsed")
+        console.log("parsed");
         console.log(parsedData.data.active_cryptocurrencies);
         setGlobal(parsedData);
         setLoading(false);
@@ -68,7 +64,7 @@ const Overview = () => {
           name: item.name,
           market_cap: item.market_cap,
           image: item.image,
-          price_change_percentage_24h: item.price_change_percentage_24h
+          price_change_percentage_24h: item.price_change_percentage_24h,
         }));
         setTopFive(newArray.slice(0, 5));
 
@@ -252,5 +248,3 @@ const Overview = () => {
 export default Overview;
 
 //  <HistoricalLineChart historicalData={historicalData} />
-
-
