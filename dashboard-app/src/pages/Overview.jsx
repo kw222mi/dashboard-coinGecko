@@ -3,6 +3,7 @@ import { fetchCoinData, fetchGlobalData } from "../services/coinGeckoService";
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
 import MarketDominanceChart from "../components/MarketDominanceChart";
+import TestTailwind from "../components/TestTailWind";
 
 const Overview = () => {
   const [coins, setCoins] = useState([]);
@@ -165,7 +166,8 @@ const Overview = () => {
 
   return (
     <>
-      <div className="bg-gray-50 min-h-screen">
+      <TestTailwind />
+      <div className="bg-gray-50 min-h-screen" >
         {/* Header */}
         <h1 className="text-3xl font-bold p-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-md">
           Cryptocurrency Overview
