@@ -40,10 +40,11 @@ export const fetchCoinMarketsData = async () => {
   }
 };
 
-export const fetchHistoricData = async (id, date) => {
+
+export const fetchHistoricData = async (coin, days) => {
   try {
     const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/${id}/history?date=${date}`
+      `/api/crypto?endpoint=coins/${coin}/market_chart?vs_currency=usd&days=${days}&interval=daily`
     );
     return response.data;
   } catch (error) {
@@ -51,6 +52,11 @@ export const fetchHistoricData = async (id, date) => {
     throw new Error("Could not fetch data");
   }
 };
+
+
+
+
+
 
 //  https://api.coingecko.com/api/v3/global
 
