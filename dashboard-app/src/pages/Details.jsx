@@ -30,6 +30,7 @@ const Details = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState("bitcoin");
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -27,23 +27,35 @@ const Settings = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCoin, setSelectedCoin] = useState("bitcoin");
 
-  useEffect(() => {
-    const fetchHistoricData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `/api/crypto?endpoint=coins/${selectedCoin}/market_chart?vs_currency=usd&days=7&interval=daily`
-        );
-        setHistoricData(response.data.prices || []);
-      } catch (error) {
-        console.error("Failed to load historic data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchHistoricData();
-  }, [selectedCoin]);
+ useEffect(() => {
+   const fetchHistoricData = async () => {
+     try {
+       setLoading(true);
+       const response = await axios.get(
+         `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=daily`
+       );
+
+       console.log("Full response:", response); // Logga hela responsen
+       console.log("Response data:", response.data); // Logga responsens data
+       console.log("Prices:", response.data.prices); // Förväntade värdet
+
+       if (response.data && response.data.prices) {
+         setHistoricData(response.data.prices);
+       } else {
+         console.error("Prices data is missing in API response!");
+       }
+     } catch (error) {
+       console.error("Failed to load historic data:", error);
+     } finally {
+       setLoading(false);
+     }
+   };
+
+   fetchHistoricData();
+ }, []);
+
+
 
   const chartData = {
     labels: historicData.map((entry) =>
@@ -63,6 +75,9 @@ const Settings = () => {
     <div className="bg-gray-50 min-h-screen p-6">
       <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white p-4 rounded-md shadow-md">
         Historic Cryptocurrency Data
+        <p style={{ color: "red", fontSize: "24px" }}>
+          🔥 Settings is rendering! 🔥
+        </p>
       </h1>
 
       {loading ? (
