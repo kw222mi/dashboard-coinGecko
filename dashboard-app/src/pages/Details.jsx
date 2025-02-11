@@ -39,6 +39,7 @@ const Details = () => {
 
  useEffect(() => {
    const fetchData = async () => {
+    console.log("SELECTED COIN " + selectedCoin)
      const cacheKey = `coinData-${selectedCoin}`;
      const cachedData = localStorage.getItem(cacheKey);
      const cachedTimestamp = localStorage.getItem(`${cacheKey}-timestamp`);
@@ -56,11 +57,12 @@ const Details = () => {
      try {
        setLoading(true);
        const data = await fetchCoinData(
-         `coins/markets?vs_currency=eur&ids=${selectedCoin}`
+         selectedCoin
        );
        localStorage.setItem(cacheKey, JSON.stringify(data));
        localStorage.setItem(`${cacheKey}-timestamp`, Date.now());
        setCoins(data);
+       console.log('DATA ' + data.data)
      } catch (error) {
        console.error("Failed to load data:", error);
      } finally {
@@ -95,7 +97,7 @@ const Details = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://api.coingecko.com/api/v3/coins/${selectedCoin}/market_chart?vs_currency=usd&days=7&interval=daily`
+          `https://api.coingecko.com/api/v3/coins/${selectedCoin}/market_chart?vs_currency=eur&days=7&interval=daily`
         );
 
         if (response.data && response.data.prices) {
@@ -136,7 +138,7 @@ const Details = () => {
     ),
     datasets: [
       {
-        label: "Price (USD)",
+        label: "Price (EUR)",
         data: historicPriceData.map((entry) => entry[1]),
         borderColor: "#3b82f6",
         backgroundColor: (context) => createGradient(context.chart.ctx),
@@ -155,7 +157,7 @@ const Details = () => {
     ),
     datasets: [
       {
-        label: "Price (USD)",
+        label: "Market Cap (EUR)",
         data: historicMarketCapData.map((entry) => entry[1]),
         borderColor: "#3b82f6",
         backgroundColor: (context) => createGradient(context.chart.ctx),
@@ -174,7 +176,7 @@ const Details = () => {
     ),
     datasets: [
       {
-        label: "Price (USD)",
+        label: "Total Volume (EUR)",
         data: historicTotalVolumesData.map((entry) => entry[1]),
         borderColor: "#3b82f6",
         backgroundColor: (context) => createGradient(context.chart.ctx),

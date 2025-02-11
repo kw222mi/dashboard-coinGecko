@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const fetchCoinData = async () => {
+export const fetchCoinData = async (selectedCoin) => {
   try {
    const response = await axios.get(
-     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur`
+     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${selectedCoin}`
    );
 
    //const response = await axios.get(`/api/coingecko?endpoint=${endpoint}`);
