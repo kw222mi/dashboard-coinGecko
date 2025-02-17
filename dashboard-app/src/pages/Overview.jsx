@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchCoinData, fetchGlobalData } from "../services/coinGeckoService";
+import {
+  fetchAllCoinData,
+  fetchGlobalData,
+} from "../services/coinGeckoService";
 import TopFiveBarChart from "../components/TopFiveBarChart";
 import PercentageChangeChart from "../components/PercentageChangeChart";
 import MarketDominanceChart from "../components/MarketDominanceChart";
@@ -72,7 +75,7 @@ const Overview = () => {
       }
 
       try {
-        const data = await fetchCoinData("coins/markets?vs_currency=eur");
+        const data = await fetchAllCoinData("coins/markets?vs_currency=eur");
         localStorage.setItem("coinsData", JSON.stringify(data));
         localStorage.setItem("coinsDataTimestamp", Date.now());
         setCoins(data);

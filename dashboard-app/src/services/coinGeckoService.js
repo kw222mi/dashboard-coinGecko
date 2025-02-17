@@ -14,6 +14,18 @@ export const fetchCoinData = async (selectedCoin) => {
   }
 };
 
+export const fetchAllCoinData = async (endpoint) => {
+  try {
+    const response = await axios.get(
+      `https://api.coingecko.com/api/v3/${endpoint}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Could not fetch data");
+  }
+};
+
 export const fetchGlobalData = async () => {
   try {
     const response = await axios.get(
