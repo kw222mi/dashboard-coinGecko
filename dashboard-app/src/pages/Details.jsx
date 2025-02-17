@@ -254,8 +254,8 @@ const Details = () => {
    };
 
   return (
-    <div className="bg-gray-50 min-h-screen p-6">
-      <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white p-4 rounded-md shadow-md">
+    <div className="bg-gray-50 min-h-screen">
+      <h1 className=" font-main text-4xl font-bold p-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-md">
         Cryptocurrency Details
       </h1>
 

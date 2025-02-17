@@ -168,9 +168,9 @@ const Overview = () => {
 
   return (
     <>
-      <div className="bg-gray-50 min-h-screen" >
+      <div className="bg-gray-50 min-h-screen">
         {/* Header */}
-        <h1 className="text-3xl font-bold p-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-md">
+        <h1 className="font-main text-4xl font-bold p-6 text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-md">
           Cryptocurrency Overview
         </h1>
 
