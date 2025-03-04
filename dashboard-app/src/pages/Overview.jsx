@@ -98,69 +98,6 @@ const Overview = () => {
     fetchData();
   }, []);
 
-  /* Hämtar historiska data
-  useEffect(() => {
-    const fetchHistoricalData = async () => {
-      const cachedHistoricalData = localStorage.getItem("weeklyHistData");
-      const cachedHistoricalTimestamp = localStorage.getItem(
-        "weeklyHistDataTimestamp"
-      );
-
-      // Kontrollera om cachen är giltig (1 timme)
-      if (
-        cachedHistoricalData &&
-        cachedHistoricalTimestamp &&
-        Date.now() - cachedHistoricalTimestamp < 3600000
-      ) {
-        const parsedData = JSON.parse(cachedHistoricalData);
-        console.log("Using cached weekly historical data:", parsedData);
-        setHistoricalData(parsedData);
-        return;
-      }
-
-      try {
-        const now = new Date();
-        const dates = [];
-        for (let i = 0; i < 7; i++) {
-          const pastDate = new Date();
-          pastDate.setDate(now.getDate() - i);
-          const day = String(pastDate.getDate()).padStart(2, "0");
-          const month = String(pastDate.getMonth() + 1).padStart(2, "0"); // Månader är 0-indexerade
-          const year = pastDate.getFullYear();
-          dates.push(`${day}-${month}-${year}`);
-        }
-
-        console.log("Fetching historical data for dates:", dates);
-
-        // Hämta data för varje dag
-        const historicalDataArray = await Promise.all(
-          dates.map(async (date) => {
-            const data = await fetchHistoricData("bitcoin", date);
-            return {
-              date,
-              price: data.market_data.current_price.eur, // Eller annan relevant data
-            };
-          })
-        );
-
-        console.log("Fetched weekly historical data:", historicalDataArray);
-
-        // Spara i localStorage
-        localStorage.setItem(
-          "weeklyHistData",
-          JSON.stringify(historicalDataArray)
-        );
-        localStorage.setItem("weeklyHistDataTimestamp", Date.now());
-
-        setHistoricalData(historicalDataArray);
-      } catch (error) {
-        console.error("Failed to fetch weekly historical data:", error);
-      }
-    };
-
-    fetchHistoricalData();
-  }, []);
-  */
 
   if (loading || coins.length === 0) {
     return <p>Laddar data...</p>;
@@ -249,5 +186,3 @@ const Overview = () => {
 };
 
 export default Overview;
-
-//  <HistoricalLineChart historicalData={historicalData} />
