@@ -112,38 +112,38 @@ const Overview = () => {
         </h1>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8 p-6">
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              Active Cryptocurrencies
-            </h2>
-            <p className="text-xl font-bold text-gray-700">
+            <p className="text-5xl font-bold text-gray-800">
               {global.data.active_cryptocurrencies}
             </p>
+            <h3 className="text-lg text-center text-gray-600 mt-2">
+              Active Cryptocurrencies
+            </h3>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              Number of Marketplaces
-            </h2>
-            <p className="text-xl font-bold text-gray-700">
+            <p className="text-5xl font-bold text-gray-800">
               {global.data.markets}
             </p>
+            <h3 className="text-lg text-center text-gray-600 mt-2">
+              Number of Marketplaces
+            </h3>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              Total Market Cap (USD)
-            </h2>
-            <p className="text-xl font-bold text-gray-700">
+            <p className="text-5xl font-bold text-gray-800">
               ${(global.data.total_market_cap.usd / 1e12).toFixed(2)}T
             </p>
+            <h3 className="text-lg text-center text-gray-600 mt-2">
+              Total Market Cap (USD)
+            </h3>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              Total Volume (USD)
-            </h2>
-            <p className="text-xl font-bold text-gray-700">
+            <p className="text-5xl font-bold text-gray-800">
               ${(global.data.total_volume.usd / 1e12).toFixed(2)}T
             </p>
+            <h3 className="text-lg text-center text-gray-600 mt-2">
+              Total Volume (USD)
+            </h3>
           </div>
         </div>
 
