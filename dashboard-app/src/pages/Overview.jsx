@@ -149,11 +149,11 @@ const Overview = () => {
 
         {/* Market Dominance Chart Section */}
         <div className="container mx-auto p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Market Dominance Overview
-          </h2>
           {global && (
             <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">
+                Market Dominance Overview
+              </h2>
               <MarketDominanceChart
                 marketCapPercentage={global.data.market_cap_percentage}
               />
@@ -163,20 +163,20 @@ const Overview = () => {
 
         {/* Top Five Bar Chart */}
         <div className="container mx-auto p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Top 5 Cryptocurrencies by Market Cap
-          </h2>
           <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">
+              Top 5 Cryptocurrencies by Market Cap
+            </h2>
             <TopFiveBarChart topFive={topFive} />
           </div>
         </div>
 
         {/* Percentage Change Chart */}
         <div className="container mx-auto p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            24h Percentage Change for Top 5 Cryptocurrencies
-          </h2>
           <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">
+              24h Percentage Change for Top 5 Cryptocurrencies
+            </h2>
             <PercentageChangeChart topFive={topFive} />
           </div>
         </div>
