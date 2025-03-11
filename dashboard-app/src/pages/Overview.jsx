@@ -157,6 +157,7 @@ const Overview = () => {
               <MarketDominanceChart
                 marketCapPercentage={global.data.market_cap_percentage}
               />
+             
             </div>
           )}
         </div>
