@@ -60,13 +60,14 @@ const MarketDominanceChart = ({ marketCapPercentage }) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg max-w-4xl mx-auto flex flex-col md:flex-row md:items-start gap-6 md:flex-wrap">
+    <div className="p-6 pt-1 bg-white rounded-lg max-w-4xl mx-auto flex flex-col md:flex-row md:items-start gap-6 md:flex-wrap">
       <div className="w-full text-center mb-4"></div>
       <div className="flex-1 min-w-[300px]" style={{ height: "300px" }}>
         <Pie data={data} options={options} />
       </div>
       <div className="flex-1 min-w-[300px] overflow-auto">
-        <table className="w-full border-collapse border border-gray-300">
+        <h2 className="text-gray-700 text-lg font-bold"> Top 5</h2>
+        <table className="w-full border-collapse border border-gray-300 mt-1">
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2">Currency</th>
